@@ -1,0 +1,53 @@
+{
+  "name": "fund_contributors_challenge",
+  "version": "0.0.0",
+  "description": "Challenge to build an editable contributors list of a fund",
+  "main": "main.js",
+  "engines": {
+    "node": "^8.4.0",
+    "npm": "^6.1.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0-beta.49",
+    "bootstrap-css-only": "^3.3.7",
+    "core-js": "^2.5.7",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^16.3.0",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.49",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "@babel/preset-react": "^7.0.0-beta.49",
+    "@babel/preset-stage-1": "^7.0.0-beta.49",
+    "babel-loader": "^8.0.0-beta.3",
+    "babel-plugin-transform-imports": "^1.5.0",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "postcss": "^6.0.12",
+    "postcss-flexbugs-fixes": "^3.3.1",
+    "postcss-loader": "^2.1.5",
+    "postcss-preset-env": "^5.1.0",
+    "rucksack-css": "^1.0.0",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-serve": "^2.0.2",
+    "webpack-serve-overlay": "^0.3.0",
+    "webpack-serve-waitpage": "^1.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:watch": "webpack --watch -d --progress",
+    "build:hmr": "webpack-serve",
+    "build:prod": "NODE_ENV=production webpack --progress",
+    "clean": "rm -rf build/*",
+    "deploy": "npm run clean && npm run build:prod"
+  },
+  "author": "Anton Gilgur",
+  "license": "Apache-2.0"
+}
