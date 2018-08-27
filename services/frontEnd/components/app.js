@@ -26,6 +26,8 @@ export default class App extends React.PureComponent {
       <Button bsStyle='success' onClick={this._addContributor}>
         <Glyphicon glyph='plus' /> Invite a Contributor
       </Button>
+      <br />
+      <br />
     </div>
   }
   _renderChunk = (chunk) => {
