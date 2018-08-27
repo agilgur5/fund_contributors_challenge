@@ -1,7 +1,10 @@
 import React from 'react'
 import { Carousel, Button, Glyphicon, Image } from 'react-bootstrap'
 
+import { chunkArray } from 'utils/helpers.js'
 import styles from './app.cssm'
+
+const pageSize = 6 // 6 contributors per page
 
 export default class App extends React.PureComponent {
   state = {
@@ -15,7 +18,7 @@ export default class App extends React.PureComponent {
       <br />
       <br />
       {contributors.length > 0 && <Carousel>
-        {contributors.map(this._renderContributor)}
+        {chunkArray(contributors, pageSize).map(this._renderChunk)}
       </Carousel>}
       <br />
       <br />
@@ -24,11 +27,17 @@ export default class App extends React.PureComponent {
       </Button>
     </div>
   }
+  _renderChunk = (chunk) => {
+    const aggregateKey = chunk.reduce((acc, contributor) => {
+      return acc + ' ' + contributor.photo
+    }, '')
+    return <Carousel.Item key={aggregateKey}>
+      {chunk.map(this._renderContributor)}
+    </Carousel.Item>
+  }
   _renderContributor = (contributor) => {
     // photo URIs should be unique
-    return <Carousel.Item key={contributor.photo}>
-      <Contributor contributor={contributor} />
-    </Carousel.Item>
+    return <Contributor key={contributor.photo} contributor={contributor} />
   }
 
   _addContributor = () => {
@@ -45,11 +54,13 @@ class Contributor extends React.PureComponent {
   render = () => {
     const { contributor } = this.props
 
-    return <div>
+    return <div className={styles.contributor}>
       <Image circle src={contributor.photo} />
       <br />
       <br />
-      <div>{contributor.name}</div>
+      <div className={styles.name}>
+        {contributor.name}
+      </div>
     </div>
   }
 }
