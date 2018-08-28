@@ -1,0 +1,23 @@
+{
+  "name": "fund_contributors_challenge_backend",
+  "version": "0.0.0",
+  "description": "Challenge to build an editable contributors list of a fund",
+  "main": "main.js",
+  "engines": {
+    "node": "^8.4.0",
+    "npm": "^6.1.0"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js",
+    "start:watch": "nodemon main.js"
+  },
+  "author": "Anton Gilgur",
+  "license": "Apache-2.0"
+}
