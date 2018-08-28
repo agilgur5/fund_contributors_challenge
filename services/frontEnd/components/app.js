@@ -3,6 +3,7 @@ import { Carousel, Button, Glyphicon, Image,
   DropdownButton, MenuItem } from 'react-bootstrap'
 
 import { chunkArray } from 'utils/helpers.js'
+import InviteContributorModal from './inviteContributorModal'
 import styles from './app.cssm'
 
 const pageSize = 6 // 6 contributors per page
@@ -11,6 +12,7 @@ export default class App extends React.PureComponent {
   state = {
     contributors: []
   }
+  modalRef = React.createRef()
   render = () => {
     const { contributors } = this.state
 
@@ -23,16 +25,18 @@ export default class App extends React.PureComponent {
       </Carousel>}
       <br />
       <br />
-      <Button bsStyle='success' onClick={this._addContributor}>
+      <Button bsStyle='success' onClick={this._openModal}>
         <Glyphicon glyph='plus' /> Invite a Contributor
       </Button>
+      <InviteContributorModal ref={this.modalRef}
+        afterValid={this._addContributor} />
       <br />
       <br />
     </div>
   }
   _renderChunk = (chunk) => {
     const aggregateKey = chunk.reduce((acc, contributor) => {
-      return acc + ' ' + contributor.photo
+      return acc + ' ' + contributor.photo.preview
     }, '')
     return <Carousel.Item key={aggregateKey}>
       {chunk.map(this._renderContributor)}
@@ -40,16 +44,19 @@ export default class App extends React.PureComponent {
   }
   _renderContributor = (contributor, index) => {
     // photo URIs should be unique
-    return <Contributor key={contributor.photo} contributor={contributor}
-      index={index} deleteIndex={this._deleteContributor} />
+    return <Contributor key={contributor.photo.preview}
+      contributor={contributor} index={index}
+      deleteIndex={this._deleteContributor} />
   }
 
-  _addContributor = () => {
-    const random = Math.random()
+  // this is done imperatively similar to a route change
+  _openModal = () => {
+    this.modalRef.current.open()
+  }
+  _addContributor = ({name, photo}) => {
     this.setState(({contributors}) => ({contributors: contributors.concat({
-      name: 'John Doe ' + random,
-      // bust cache on photos
-      photo: 'https://source.unsplash.com/random/100x100?sig=' + random
+      name,
+      photo
     })}))
   }
   _deleteContributor = (index) => {
@@ -65,7 +72,7 @@ class Contributor extends React.PureComponent {
     const { contributor, index } = this.props
 
     return <div className={styles.contributor}>
-      <Image circle src={contributor.photo} />
+      <Image circle className={styles.photo} src={contributor.photo.preview} />
       <br />
       <br />
       <div className={styles.name}>

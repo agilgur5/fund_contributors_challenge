@@ -1,0 +1,27 @@
+.dropZone {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+.dropZone:hover {
+  border: 2px dashed gray;
+}
+.activeDropZone {
+  border: 2px dashed gray;
+}
+.rejectDropZone {
+  border: 2px solid red;
+}
+.dragText {
+  color: gray;
+}
+.photo {
+  width: 100px;
+  height: 100px;
+  margin: 10px auto;
+  background-color: #ddd;
+}
+.glyph {
+  font-size: 30px;
+  margin: 10px;
+}
