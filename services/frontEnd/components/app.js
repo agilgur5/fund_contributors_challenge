@@ -34,19 +34,20 @@ export default class App extends React.PureComponent {
       <br />
     </div>
   }
-  _renderChunk = (chunk) => {
+  _renderChunk = (chunk, outerIndex) => {
+    // photo URIs should be unique
     const aggregateKey = chunk.reduce((acc, contributor) => {
       return acc + ' ' + contributor.photo.preview
     }, '')
+    const chunkIndex = outerIndex * pageSize
     return <Carousel.Item key={aggregateKey}>
-      {chunk.map(this._renderContributor)}
+      {chunk.map((contributor, innerIndex) => {
+        return <Contributor key={contributor.photo.preview}
+          contributor={contributor}
+          index={chunkIndex + innerIndex}
+          deleteIndex={this._deleteContributor} />
+      })}
     </Carousel.Item>
-  }
-  _renderContributor = (contributor, index) => {
-    // photo URIs should be unique
-    return <Contributor key={contributor.photo.preview}
-      contributor={contributor} index={index}
-      deleteIndex={this._deleteContributor} />
   }
 
   // this is done imperatively similar to a route change
