@@ -60,7 +60,7 @@ app.use('/uploads', express.static('./uploads/'))
 // only start the server if run directly from Node, not if required by tests
 /* istanbul ignore if */
 if (require.main === module) {
-  app.listen(8080, () => console.log('Listening on port 8080'))
+  app.listen(8081, () => console.log('Listening on port 8081'))
 }
 
 // exclusively for testing purposes
