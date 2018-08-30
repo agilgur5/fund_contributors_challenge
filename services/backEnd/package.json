@@ -11,10 +11,15 @@
     "express": "^4.16.3"
   },
   "devDependencies": {
-    "nodemon": "^1.18.3"
+    "ava": "^0.25.0",
+    "nodemon": "^1.18.3",
+    "nyc": "^13.0.1",
+    "supertest-fetch": "^1.1.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ava main.test.js",
+    "test:watch": "ava --watch main.test.js",
+    "coverage": "nyc npm run test",
     "start": "node main.js",
     "start:watch": "nodemon main.js"
   },
