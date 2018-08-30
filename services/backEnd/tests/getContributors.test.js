@@ -37,7 +37,4 @@ test('GET /api/contributors', async (assert) => {
 
   json = await getContributorsFail(-1)
   assert.is(json.error, 'Invalid offset', 'should 400 negatives')
-
-  json = await getContributorsFail(fixture.length + 1)
-  assert.is(json.error, 'Invalid offset', 'should 400 when > length')
 })

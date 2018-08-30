@@ -12,7 +12,7 @@ const upload = multer({
 
 app.get('/api/contributors', (req, res) => {
   const offset = req.query.offset || 0
-  if (offset > contributors.length || offset < 0) {
+  if (offset < 0) {
     return res.status(400).json({error: 'Invalid offset'})
   }
   return res.json({contributors: contributors.slice(offset, offset + pageSize)})
