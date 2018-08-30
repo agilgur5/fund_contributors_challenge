@@ -1,0 +1,14 @@
+.contributor {
+  display: inline-block;
+  width: 100px;
+  margin: 20px;
+}
+.photo {
+  width: 100px;
+  height: 100px;
+}
+/* hide long names with ellipsis */
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

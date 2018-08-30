@@ -1,10 +1,10 @@
 import React from 'react'
-import { Carousel, Button, Glyphicon, Image,
-  DropdownButton, MenuItem } from 'react-bootstrap'
+import { Carousel, Button, Glyphicon } from 'react-bootstrap'
 
-import { chunkArray } from 'utils/helpers.js'
-import InviteContributorModal from './inviteContributorModal'
 import { getContributors, deleteContributors } from 'utils/api.js'
+import { chunkArray } from 'utils/helpers.js'
+import Contributor from './contributor.js'
+import InviteContributorModal from './inviteContributorModal.js'
 import styles from './app.cssm'
 
 const pageSize = 6 // 6 contributors per page
@@ -140,30 +140,4 @@ function isEmptyPage (index, carouselIndex, length) {
 
 function getLastPageIndex (length) {
   return Math.ceil(length / pageSize) - 1
-}
-
-class Contributor extends React.PureComponent {
-  render = () => {
-    const { contributor, index } = this.props
-
-    return <div className={styles.contributor}>
-      <Image circle className={styles.photo} src={`/${contributor.path}`} />
-      <br />
-      <br />
-      <div className={styles.name}>
-        {contributor.name}
-      </div>
-      <DropdownButton id={index} block title={'Options'}>
-        <MenuItem eventKey='1' onClick={this._deleteSelf}>
-          Remove Contributor
-        </MenuItem>
-      </DropdownButton>
-      <br />
-      <br />
-    </div>
-  }
-
-  _deleteSelf = () => {
-    this.props.deleteIndex(this.props.index)
-  }
 }
