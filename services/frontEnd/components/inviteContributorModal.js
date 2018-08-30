@@ -3,17 +3,19 @@ import { Modal, Button, FormGroup, ControlLabel,
   FormControl } from 'react-bootstrap'
 
 import PhotoInput from './photoInput.js'
+import { postContributors } from 'utils/api.js'
 
 const defaultState = {
   isOpen: false,
   photo: undefined,
-  name: ''
+  name: '',
+  submitting: false
 }
 
 export default class InviteContributorModal extends React.PureComponent {
   state = {...defaultState}
   render = () => {
-    const { isOpen, photo, name } = this.state
+    const { isOpen, photo, name, submitting } = this.state
 
     return <Modal show={isOpen} onHide={this._close}>
       <Modal.Header closeButton>
@@ -25,14 +27,16 @@ export default class InviteContributorModal extends React.PureComponent {
           <PhotoInput photo={photo} onDrop={this._changePhoto} />
           <FormGroup controlId='name'>
             <ControlLabel>Name</ControlLabel>
-            <FormControl autoFocus minLength='1' autoComplete='name'
+            <FormControl autoFocus required minLength='1' autoComplete='name'
               placeholder='Jane Doe' value={name} onChange={this._changeName} />
           </FormGroup>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={this._close}>Close</Button>
-          <Button bsStyle='success' type='submit'>Invite</Button>
+          <Button disabled={submitting} onClick={this._close}>Close</Button>
+          <Button bsStyle='success' disabled={submitting} type='submit'>
+            Invite
+          </Button>
         </Modal.Footer>
       </form>
     </Modal>
@@ -42,6 +46,7 @@ export default class InviteContributorModal extends React.PureComponent {
     this.setState({isOpen: true})
   }
   _close = () => {
+    if (this.state.submitting) { return } // wait for submission to finish
     this.setState({isOpen: false})
   }
 
@@ -53,13 +58,17 @@ export default class InviteContributorModal extends React.PureComponent {
     const name = ev.target.value // store outside of synthetic ev
     this.setState({name})
   }
-  _submitForm = (ev) => {
+  _submitForm = async (ev) => {
     ev.preventDefault() // don't do a sync submit
 
     const { photo, name } = this.state
     if (!photo || !name) { return } // reject if invalid
 
-    this.props.afterValid({photo, name})
+    if (this.state.submitting) { return } // debounce
+    this.setState({submitting: true})
+    const { path } = await postContributors(name, photo)
+
+    this.props.afterSubmit({name, path})
     this.setState({...defaultState}) // reset state after a submission
   }
 }
