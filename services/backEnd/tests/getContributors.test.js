@@ -1,8 +1,6 @@
 const test = require('ava')
-const { makeFetch } = require('supertest-fetch')
 
-const { app, pageSize, contributors } = require('./main.js')
-const fetch = makeFetch(app)
+const { fetch, pageSize, contributors } = require('./sharedImports.js')
 
 test('GET /api/contributors', async (assert) => {
   const fixture = [{name: 'John Doe 0'}, {name: 'John Doe 1'},
