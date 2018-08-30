@@ -36,6 +36,20 @@ app.post('/api/contributors', (req, res) => photoUpload(req, res, (err) => {
   return res.status(201).json({path})
 }))
 
+app.delete('/api/contributors', (req, res) => {
+  if (!('path' in req.query)) {
+    return res.status(400).json({error: 'Invalid path'})
+  }
+  const path = req.query.path
+  const index = contributors.findIndex((elem) => elem.path === path)
+  if (index === -1) {
+    return res.sendStatus(404)
+  }
+  contributors.splice(index, 1) // use splice to mutate the array
+  fs.unlink(path, () => {})
+  return res.sendStatus(204)
+})
+
 // serve static assets from build similarly to webpack-serve config
 app.use('/build', express.static('../frontEnd/build/'))
 app.use('/uploads', express.static('./uploads/'))
